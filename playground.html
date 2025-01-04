@@ -1,14 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
+
   <head>
     <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      http-equiv="X-UA-Compatible"
+      content="IE=edge"
+    />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
     <title>Playground — Complete Intro to Vue 3</title>
   </head>
+
   <body>
+
     <h1>Hello Frontend Masters!</h1>
     <div id="app">
+
+      <h1>{{ displayTitle }}</h1>
+
+      <h2>{{ pageTitle }}</h2>
+      <div>
+        <label for="pageTitleControl"></label>
+        <input
+          type="text"
+          v-model="newPageTitle"
+        />
+        <button @click="updatePageTitle">Update Title</button>
+      </div>
+
+      <p>{{count}}</p>
+      <button @click="incrementCount">Increment Count</button>
+      <div>
+        <label for="incrementAmount">Increment by:</label>
+        <input
+          type="number"
+          v-model="incrementAmount"
+        />
+      </div>
+
+
       <p v-if="message.length % 2 === 0">Even: {{ message.toUpperCase() }}</p>
       <p v-else>Odd: {{ message }}</p>
       <ul v-for="item in listOfNumbers">
@@ -28,7 +61,11 @@
       const app = createApp({
         data() {
           return {
+            count: 10,
+            pageTitle: "Counter Page",
+            newPageTitle: "",
             message: 'Hello it works',
+            incrementAmount: 1,
             listOfNumbers: [
               {
                 name: 1,
@@ -57,10 +94,33 @@
               }
             ]
           }
+        },
+        computed: {
+          displayTitle() {
+            if (this.count > 20) {
+              return "Counter Standard - very long";
+            } else {
+              return 'Counter Standard'
+            }
+          }
+        },
+        methods: {
+          incrementCount() {
+            this.count += this.incrementAmount;
+          },
+          updatePageTitle() {
+            this.pageTitle = this.newPageTitle;
+          }
+        },
+        watch: {
+          count(newValue) {
+            console.log(newValue);
+          }
         }
       })
 
       app.mount('#app')
     </script>
   </body>
+
 </html>
